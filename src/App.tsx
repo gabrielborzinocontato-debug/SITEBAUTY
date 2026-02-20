@@ -9,6 +9,7 @@ import { FavoritesProvider } from "@/context/FavoritesContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
+import ScrollToTop from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
@@ -30,6 +31,7 @@ const App = () => (
             <Toaster />
             <Sonner />
             <BrowserRouter>
+              <ScrollToTop />
               <Header />
               <CartDrawer />
               <Routes>

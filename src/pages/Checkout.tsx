@@ -14,6 +14,25 @@ const Checkout = () => {
   const [step, setStep] = useState(1);
   const [placing, setPlacing] = useState(false);
 
+  // Shipping & Contact State
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    cpf: "",
+    cep: "",
+    rua: "",
+    numero: "",
+    cidade: "",
+    estado: ""
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
   const formatPrice = (price: number) =>
     price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
@@ -27,7 +46,19 @@ const Checkout = () => {
     try {
       const { data: order, error: orderError } = await supabase
         .from("orders")
-        .insert({ user_id: user.id, total: totalPrice, status: "processing" })
+        .insert({
+          user_id: user.id,
+          total: totalPrice,
+          status: "processing",
+          shipping_full_name: `${formData.firstName} ${formData.lastName}`,
+          shipping_phone: formData.phone,
+          shipping_cep: formData.cep,
+          shipping_rua: formData.rua,
+          shipping_numero: formData.numero,
+          shipping_cidade: formData.cidade,
+          shipping_estado: formData.estado,
+          shipping_cpf: formData.cpf
+        })
         .select()
         .single();
       if (orderError) throw orderError;
@@ -76,9 +107,8 @@ const Checkout = () => {
         <div className="flex items-center gap-4 mb-8">
           {["Dados", "Entrega", "Pagamento"].map((label, i) => (
             <div key={label} className="flex items-center gap-2">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                step >= i + 1 ? "bg-primary text-primary-foreground" : "bg-border text-muted-foreground"
-              }`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${step >= i + 1 ? "bg-primary text-primary-foreground" : "bg-border text-muted-foreground"
+                }`}>
                 {i + 1}
               </div>
               <span className={`text-sm font-medium ${step >= i + 1 ? "text-foreground" : "text-muted-foreground"}`}>{label}</span>
@@ -96,20 +126,57 @@ const Checkout = () => {
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label className="text-sm font-medium mb-1 block">Nome</label>
-                      <input className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" placeholder="Seu nome" />
+                      <input
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleInputChange}
+                        className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                        placeholder="Seu nome"
+                      />
                     </div>
                     <div>
                       <label className="text-sm font-medium mb-1 block">Sobrenome</label>
-                      <input className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" placeholder="Seu sobrenome" />
+                      <input
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleInputChange}
+                        className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                        placeholder="Seu sobrenome"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-sm font-medium mb-1 block">E-mail</label>
+                      <input
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        type="email"
+                        className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                        placeholder="seu@email.com"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-1 block">Telefone</label>
+                      <input
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                        placeholder="(00) 00000-0000"
+                      />
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm font-medium mb-1 block">E-mail</label>
-                    <input type="email" className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" placeholder="seu@email.com" />
-                  </div>
-                  <div>
                     <label className="text-sm font-medium mb-1 block">CPF</label>
-                    <input className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" placeholder="000.000.000-00" />
+                    <input
+                      name="cpf"
+                      value={formData.cpf}
+                      onChange={handleInputChange}
+                      className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                      placeholder="000.000.000-00"
+                    />
                   </div>
                   <button onClick={() => setStep(2)} className="btn-hero w-full mt-4">Continuar</button>
                 </div>
@@ -120,26 +187,52 @@ const Checkout = () => {
                   <h2 className="font-display text-xl font-semibold mb-4">Endereço de Entrega</h2>
                   <div>
                     <label className="text-sm font-medium mb-1 block">CEP</label>
-                    <input className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" placeholder="00000-000" />
+                    <input
+                      name="cep"
+                      value={formData.cep}
+                      onChange={handleInputChange}
+                      className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                      placeholder="00000-000"
+                    />
                   </div>
                   <div className="grid md:grid-cols-3 gap-4">
                     <div className="md:col-span-2">
                       <label className="text-sm font-medium mb-1 block">Rua</label>
-                      <input className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                      <input
+                        name="rua"
+                        value={formData.rua}
+                        onChange={handleInputChange}
+                        className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                      />
                     </div>
                     <div>
                       <label className="text-sm font-medium mb-1 block">Número</label>
-                      <input className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                      <input
+                        name="numero"
+                        value={formData.numero}
+                        onChange={handleInputChange}
+                        className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                      />
                     </div>
                   </div>
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label className="text-sm font-medium mb-1 block">Cidade</label>
-                      <input className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                      <input
+                        name="cidade"
+                        value={formData.cidade}
+                        onChange={handleInputChange}
+                        className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                      />
                     </div>
                     <div>
                       <label className="text-sm font-medium mb-1 block">Estado</label>
-                      <input className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                      <input
+                        name="estado"
+                        value={formData.estado}
+                        onChange={handleInputChange}
+                        className="w-full bg-secondary text-foreground px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                      />
                     </div>
                   </div>
                   <div className="bg-secondary/50 p-4 rounded-lg">

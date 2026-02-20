@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Star, ShoppingBag, Heart, Truck, Shield, RotateCcw, ChevronLeft } from "lucide-react";
 import { getProductById, products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
+import { useFavorites } from "@/context/FavoritesContext";
 import ProductCard from "@/components/ProductCard";
 import { motion } from "framer-motion";
 
@@ -10,7 +11,9 @@ const ProductDetail = () => {
   const { id } = useParams();
   const product = getProductById(id || "");
   const { addItem } = useCart();
+  const { toggleFavorite, isFavorite } = useFavorites();
   const [quantity, setQuantity] = useState(1);
+  const fav = product ? isFavorite(product.id) : false;
 
   if (!product) {
     return (
@@ -123,8 +126,12 @@ const ProductDetail = () => {
               >
                 <ShoppingBag size={18} /> Adicionar à Sacola
               </button>
-              <button className="w-12 h-12 border border-border rounded-lg flex items-center justify-center text-foreground hover:text-primary hover:border-primary transition-colors">
-                <Heart size={20} />
+              <button
+                onClick={() => product && toggleFavorite(product.id)}
+                className={`w-12 h-12 border border-border rounded-lg flex items-center justify-center transition-colors ${fav ? "text-primary border-primary bg-primary/5" : "text-foreground hover:text-primary hover:border-primary"
+                  }`}
+              >
+                <Heart size={20} className={fav ? "fill-primary" : ""} />
               </button>
             </div>
 
