@@ -259,8 +259,8 @@ export const products: Product[] = [
     id: "15",
     name: "Good Girl Carolina Herrera - Perfume Feminino - Eau de Parfum",
     brand: "Carolina Herrera",
-    price: 199.90,
-    originalPrice: 399.80,
+    price: 179.99,
+    originalPrice: 359.98,
     image: goodgirl1,
     images: [goodgirl1, goodgirl2, goodgirl3],
     category: "perfumes",
@@ -271,8 +271,8 @@ export const products: Product[] = [
     isNew: true,
     discount: 50,
     variants: [
-      { id: "30ml", name: "30 ML", price: 199.90, originalPrice: 399.80 },
-      { id: "50ml", name: "50 ML", price: 340.00, originalPrice: 680.00 },
+      { id: "30ml", name: "30 ML", price: 179.99, originalPrice: 359.98 },
+      { id: "50ml", name: "50 ML", price: 299.99, originalPrice: 599.98 },
       { id: "100ml", name: "100 ML", price: 599.00, originalPrice: 854.67 },
     ],
     customReviews: [
