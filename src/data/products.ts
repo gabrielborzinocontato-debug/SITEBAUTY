@@ -10,6 +10,7 @@ import makeup2 from "@/assets/products/makeup-2.jpg";
 import makeup3 from "@/assets/products/makeup-3.jpg";
 import haircare1 from "@/assets/products/haircare-1.jpg";
 import bodycare1 from "@/assets/products/bodycare-1.jpg";
+import liphoneyMel from "@/assets/products/liphoney-mel.png";
 
 export interface Product {
   id: string;
@@ -206,7 +207,21 @@ export const products: Product[] = [
     reviews: 287,
     description: "Creme corporal ultra-hidratante com partículas de ouro e manteiga de karité. Deixa a pele macia, luminosa e perfumada.",
     benefits: ["Partículas de ouro", "48h de hidratação", "Fragrância sofisticada"],
-    discount: 29,
+    isNew: true,
+  },
+  {
+    id: "13",
+    name: "Gloss Labial Liphoney Mel Brilho Irresistível Franciny Ehlke Mel",
+    brand: "Franciny Ehlke",
+    price: 26.00,
+    image: liphoneyMel,
+    images: [liphoneyMel],
+    category: "maquiagem",
+    rating: 5.0,
+    reviews: 12,
+    description: "O Gloss Labial Liphoney Mel proporciona um brilho irresistível com uma textura confortável e hidratação profunda. Inspirado na doçura e brilho do mel, é o toque final perfeito para qualquer maquiagem.",
+    benefits: ["Brilho intenso", "Hidratação prolongada", "Textura não pegajosa"],
+    isNew: true,
   },
 ];
 
