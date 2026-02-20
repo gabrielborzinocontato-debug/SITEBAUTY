@@ -14,6 +14,9 @@ import liphoneyMel from "@/assets/products/liphoney-mel.png";
 import vitac10_1 from "@/assets/products/vitac10-1.png";
 import vitac10_2 from "@/assets/products/vitac10-2.png";
 import vitac10_3 from "@/assets/products/vitac10-3.png";
+import goodgirl1 from "@/assets/products/goodgirl-1.png";
+import goodgirl2 from "@/assets/products/goodgirl-2.png";
+import goodgirl3 from "@/assets/products/goodgirl-3.png";
 
 export interface Product {
   id: string;
@@ -31,6 +34,18 @@ export interface Product {
   isNew?: boolean;
   isBestseller?: boolean;
   discount?: number;
+  variants?: {
+    id: string;
+    name: string;
+    price: number;
+    originalPrice: number;
+  }[];
+  customReviews?: {
+    name: string;
+    rating: number;
+    text: string;
+    date: string;
+  }[];
 }
 
 export const products: Product[] = [
@@ -239,6 +254,32 @@ export const products: Product[] = [
     description: "Sérum com 10% de Vitamina C e 0,5% de Ácido Ferúlico com alta eficácia contra linhas finas, textura irregular e hiperpigmentação. Proporciona luminosidade e rejuvenescimento para todos os tipos de pele.",
     benefits: ["10% Vitamina C Pura", "0,5% Ácido Ferúlico", "Combate hiperpigmentação e linhas finas"],
     isNew: true,
+  },
+  {
+    id: "15",
+    name: "Good Girl Carolina Herrera - Perfume Feminino - Eau de Parfum",
+    brand: "Carolina Herrera",
+    price: 199.90,
+    originalPrice: 399.80,
+    image: goodgirl1,
+    images: [goodgirl1, goodgirl2, goodgirl3],
+    category: "perfumes",
+    rating: 5.0,
+    reviews: 128,
+    description: "Good Girl é uma fragrância poderosa e sensual. Um mix audacioso de elementos leves e marcantes para as mulheres que amam seu lado bom e comemoram seu lado mau. O sapato agulha icônico agora disponível em três tamanhos exclusivos.",
+    benefits: ["Fragrância icônica e sensual", "Frasco em formato de sapato agulha", "Alta fixação e projeção"],
+    isNew: true,
+    discount: 50,
+    variants: [
+      { id: "30ml", name: "30 ML", price: 199.90, originalPrice: 399.80 },
+      { id: "50ml", name: "50 ML", price: 340.00, originalPrice: 680.00 },
+      { id: "100ml", name: "100 ML", price: 599.00, originalPrice: 1198.00 },
+    ],
+    customReviews: [
+      { name: "Juliana M.", rating: 5, text: "Gente, podem comprar sem medo! O perfume é 100% original, o cheiro é maravilhoso e a fixação é absurda. Amei a loja, entrega super rápida!", date: "18/02/2026" },
+      { name: "Beatriz S.", rating: 5, text: "Minha melhor compra! O frasco é lindo demais. Estava com receio de não ser original pelo preço, mas é perfeito. Com certeza vou comprar novamente!", date: "10/02/2026" },
+      { name: "Fernanda L.", rating: 5, text: "Aura Beauty está de parabéns! Atendimento nota 10 e o Good Girl dispensa comentários. Favorito da vida!", date: "05/02/2026" },
+    ]
   },
 ];
 

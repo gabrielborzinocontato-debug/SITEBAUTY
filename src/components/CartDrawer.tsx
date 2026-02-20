@@ -53,41 +53,47 @@ const CartDrawer = () => {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {items.map((item) => (
-                    <div key={item.product.id} className="flex gap-4">
-                      <img
-                        src={item.product.image}
-                        alt={item.product.name}
-                        className="w-20 h-20 object-cover rounded-lg bg-secondary"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs text-muted-foreground uppercase tracking-wide">{item.product.brand}</p>
-                        <p className="text-sm font-medium truncate">{item.product.name}</p>
-                        <p className="text-sm font-bold text-primary mt-1">{formatPrice(item.product.price)}</p>
-                        <div className="flex items-center gap-2 mt-2">
-                          <button
-                            onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                            className="w-7 h-7 flex items-center justify-center border border-border rounded hover:bg-secondary transition-colors"
-                          >
-                            <Minus size={14} />
-                          </button>
-                          <span className="text-sm font-medium w-6 text-center">{item.quantity}</span>
-                          <button
-                            onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                            className="w-7 h-7 flex items-center justify-center border border-border rounded hover:bg-secondary transition-colors"
-                          >
-                            <Plus size={14} />
-                          </button>
-                          <button
-                            onClick={() => removeItem(item.product.id)}
-                            className="ml-auto p-1 text-muted-foreground hover:text-destructive transition-colors"
-                          >
-                            <Trash2 size={16} />
-                          </button>
+                  {items.map((item) => {
+                    const itemId = item.variantId ? `${item.product.id}-${item.variantId}` : item.product.id;
+                    return (
+                      <div key={itemId} className="flex gap-4">
+                        <img
+                          src={item.product.image}
+                          alt={item.product.name}
+                          className="w-20 h-20 object-cover rounded-lg bg-secondary"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs text-muted-foreground uppercase tracking-wide">{item.product.brand}</p>
+                          <p className="text-sm font-medium truncate">{item.product.name}</p>
+                          {item.selectedVariantName && (
+                            <p className="text-xs text-primary font-medium">{item.selectedVariantName}</p>
+                          )}
+                          <p className="text-sm font-bold text-primary mt-1">{formatPrice(item.price)}</p>
+                          <div className="flex items-center gap-2 mt-2">
+                            <button
+                              onClick={() => updateQuantity(itemId, item.quantity - 1)}
+                              className="w-7 h-7 flex items-center justify-center border border-border rounded hover:bg-secondary transition-colors"
+                            >
+                              <Minus size={14} />
+                            </button>
+                            <span className="text-sm font-medium w-6 text-center">{item.quantity}</span>
+                            <button
+                              onClick={() => updateQuantity(itemId, item.quantity + 1)}
+                              className="w-7 h-7 flex items-center justify-center border border-border rounded hover:bg-secondary transition-colors"
+                            >
+                              <Plus size={14} />
+                            </button>
+                            <button
+                              onClick={() => removeItem(itemId)}
+                              className="ml-auto p-1 text-muted-foreground hover:text-destructive transition-colors"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               )}
             </div>

@@ -308,16 +308,22 @@ const Checkout = () => {
             <div className="bg-card rounded-xl p-6 border border-border shadow-sm sticky top-24">
               <h3 className="font-display text-lg font-semibold mb-4">Resumo do Pedido</h3>
               <div className="space-y-3 mb-4">
-                {items.map((item) => (
-                  <div key={item.product.id} className="flex gap-3">
-                    <img src={item.product.image} alt={item.product.name} className="w-14 h-14 object-cover rounded bg-secondary" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">{item.product.name}</p>
-                      <p className="text-xs text-muted-foreground">Qtd: {item.quantity}</p>
+                {items.map((item) => {
+                  const itemId = item.variantId ? `${item.product.id}-${item.variantId}` : item.product.id;
+                  return (
+                    <div key={itemId} className="flex gap-3">
+                      <img src={item.product.image} alt={item.product.name} className="w-14 h-14 object-cover rounded bg-secondary" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium truncate">{item.product.name}</p>
+                        {item.selectedVariantName && (
+                          <p className="text-xs text-primary font-medium">{item.selectedVariantName}</p>
+                        )}
+                        <p className="text-xs text-muted-foreground">Qtd: {item.quantity}</p>
+                      </div>
+                      <p className="text-sm font-bold">{formatPrice(item.price * item.quantity)}</p>
                     </div>
-                    <p className="text-sm font-bold">{formatPrice(item.product.price * item.quantity)}</p>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
               <div className="border-t border-border pt-4 space-y-2">
                 <div className="flex justify-between text-sm">

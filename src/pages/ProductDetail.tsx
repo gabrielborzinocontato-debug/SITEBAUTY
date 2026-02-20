@@ -13,7 +13,14 @@ const ProductDetail = () => {
   const { addItem } = useCart();
   const { toggleFavorite, isFavorite } = useFavorites();
   const [quantity, setQuantity] = useState(1);
+  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
+    product?.variants ? product.variants[0].id : null
+  );
   const fav = product ? isFavorite(product.id) : false;
+
+  const currentVariant = product?.variants?.find(v => v.id === selectedVariantId) || null;
+  const currentPrice = currentVariant ? currentVariant.price : product?.price || 0;
+  const currentOriginalPrice = currentVariant ? currentVariant.originalPrice : product?.originalPrice;
 
   if (!product) {
     return (
@@ -78,12 +85,12 @@ const ProductDetail = () => {
             </div>
 
             <div className="space-y-1">
-              {product.originalPrice && (
-                <p className="text-sm text-muted-foreground line-through">{formatPrice(product.originalPrice)}</p>
+              {currentOriginalPrice && (
+                <p className="text-sm text-muted-foreground line-through">{formatPrice(currentOriginalPrice)}</p>
               )}
-              <p className="text-3xl font-bold text-foreground">{formatPrice(product.price)}</p>
+              <p className="text-3xl font-bold text-foreground">{formatPrice(currentPrice)}</p>
               <p className="text-sm text-muted-foreground">
-                ou 3x de {formatPrice(product.price / 3)} sem juros
+                ou 3x de {formatPrice(currentPrice / 3)} sem juros
               </p>
             </div>
 
@@ -99,6 +106,26 @@ const ProductDetail = () => {
                     </li>
                   ))}
                 </ul>
+              </div>
+            )}
+
+            {product.variants && (
+              <div className="space-y-3 pt-2">
+                <h3 className="font-semibold text-sm uppercase tracking-wider">Tamanho</h3>
+                <div className="flex flex-wrap gap-2">
+                  {product.variants.map((variant) => (
+                    <button
+                      key={variant.id}
+                      onClick={() => setSelectedVariantId(variant.id)}
+                      className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${selectedVariantId === variant.id
+                        ? "border-primary bg-primary/10 text-primary shadow-sm"
+                        : "border-border hover:border-primary/50 text-muted-foreground"
+                        }`}
+                    >
+                      {variant.name}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
 
@@ -120,7 +147,7 @@ const ProductDetail = () => {
               </div>
               <button
                 onClick={() => {
-                  for (let i = 0; i < quantity; i++) addItem(product);
+                  for (let i = 0; i < quantity; i++) addItem(product, selectedVariantId || undefined);
                 }}
                 className="flex-1 btn-hero flex items-center justify-center gap-2"
               >
@@ -156,11 +183,11 @@ const ProductDetail = () => {
         <div className="mt-16 border-t border-border pt-12">
           <h2 className="section-title mb-8">Avaliações</h2>
           <div className="space-y-6">
-            {[
+            {(product.customReviews || [
               { name: "Maria S.", rating: 5, text: "Produto maravilhoso! Superou minhas expectativas. Embalagem linda e entrega rápida.", date: "15/01/2026" },
               { name: "Ana P.", rating: 4, text: "Muito bom! A qualidade é excelente, só achei o preço um pouco alto. Mas vale a pena pelo resultado.", date: "08/01/2026" },
               { name: "Camila R.", rating: 5, text: "Amei! Já é minha segunda compra e não troco por nada. Recomendo demais!", date: "02/01/2026" },
-            ].map((review, i) => (
+            ]).map((review, i) => (
               <div key={i} className="p-4 bg-secondary/30 rounded-lg">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="flex gap-0.5">
