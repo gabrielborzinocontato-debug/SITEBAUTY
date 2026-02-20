@@ -158,17 +158,34 @@ const ProductDetail = () => {
             className="space-y-6"
           >
             <div>
+              {product.socialProof?.trendLabel && (
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">
+                    <TrendingUp size={12} /> {product.socialProof.trendLabel}
+                  </span>
+                  <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium">✨ Mais Vendido</span>
+                </div>
+              )}
               <p className="text-sm text-muted-foreground uppercase tracking-wider">{product.brand}</p>
               <h1 className="font-display text-3xl md:text-4xl font-bold mt-1">{product.name}</h1>
             </div>
 
-            <div className="flex items-center gap-2">
-              <div className="flex gap-0.5">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} size={16} className={i < Math.floor(product.rating) ? "fill-gold text-gold" : "text-border"} />
-                ))}
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <div className="flex gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} size={16} className={i < Math.floor(product.rating) ? "fill-gold text-gold" : "text-border"} />
+                  ))}
+                </div>
+                <span className="text-sm text-foreground font-medium">({product.reviews})</span>
               </div>
-              <span className="text-sm text-muted-foreground">({product.reviews} avaliações)</span>
+
+              {product.socialProof?.salesCount && (
+                <div className="flex items-center gap-1.5 text-sm text-muted-foreground border-l border-border pl-4">
+                  <Users size={16} className="text-primary/60" />
+                  <span>+{product.socialProof.salesCount} clientes atendidas</span>
+                </div>
+              )}
             </div>
 
             <div className="space-y-1">
