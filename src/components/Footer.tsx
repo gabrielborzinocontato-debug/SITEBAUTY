@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Instagram, Facebook, Youtube, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -33,17 +33,6 @@ const Footer = () => {
             <p className="text-sm text-background/60 leading-relaxed">
               A maior loja de cosméticos online do Brasil. Beleza, qualidade e sofisticação ao seu alcance.
             </p>
-            <div className="flex gap-3 mt-4">
-              <a href="#" className="w-9 h-9 rounded-full border border-background/20 flex items-center justify-center hover:bg-background/10 transition-colors">
-                <Instagram size={16} />
-              </a>
-              <a href="#" className="w-9 h-9 rounded-full border border-background/20 flex items-center justify-center hover:bg-background/10 transition-colors">
-                <Facebook size={16} />
-              </a>
-              <a href="#" className="w-9 h-9 rounded-full border border-background/20 flex items-center justify-center hover:bg-background/10 transition-colors">
-                <Youtube size={16} />
-              </a>
-            </div>
           </div>
           <div>
             <h4 className="font-semibold text-sm uppercase tracking-wider mb-4">Categorias</h4>
