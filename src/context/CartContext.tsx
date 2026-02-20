@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
 import { Product } from "@/data/products";
 
 interface CartItem {
@@ -28,10 +28,17 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(() => {
+    const saved = localStorage.getItem("cart_items");
+    return saved ? JSON.parse(saved) : [];
+  });
   const [isOpen, setIsOpen] = useState(false);
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
+
+  useEffect(() => {
+    localStorage.setItem("cart_items", JSON.stringify(items));
+  }, [items]);
 
   const addItem = useCallback((product: Product, variantId?: string) => {
     setItems((prev) => {

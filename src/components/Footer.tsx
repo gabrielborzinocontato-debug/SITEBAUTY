@@ -69,7 +69,7 @@ const Footer = () => {
             <h4 className="font-semibold text-sm uppercase tracking-wider mb-4">Atendimento</h4>
             <ul className="space-y-2 text-sm text-background/60">
               <li className="flex items-center gap-2"><Mail size={14} /> contato@aurabeauty.com.br</li>
-              <li>SAC: 0800 123 4567</li>
+              <li>SAC: 0800 764 238</li>
               <li>Seg a Sex: 8h às 20h</li>
               <li>Sáb: 8h às 14h</li>
             </ul>
