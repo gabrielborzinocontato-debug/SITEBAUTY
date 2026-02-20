@@ -18,7 +18,7 @@ const navLinks = [
 
 const Header = () => {
   const { totalItems, setIsOpen } = useCart();
-  const { user, signOut } = useAuth();
+  const { user, signOut, loading: authLoading } = useAuth();
   const { favorites } = useFavorites();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -82,7 +82,11 @@ const Header = () => {
                 <Search size={20} />
               </button>
 
-              {user ? (
+              {authLoading ? (
+                <div className="p-2 text-foreground/30 animate-pulse hidden sm:block">
+                  <User size={20} />
+                </div>
+              ) : user ? (
                 <>
                   <Link
                     to="/minha-conta"

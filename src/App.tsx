@@ -19,6 +19,7 @@ import About from "./pages/About";
 import MyAccount from "./pages/MyAccount";
 import Favorites from "./pages/Favorites";
 import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 1 } } });
 
@@ -46,7 +47,14 @@ const App = () => (
                 <Route path="/login" element={<Login />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/sobre" element={<About />} />
-                <Route path="/minha-conta" element={<MyAccount />} />
+                <Route
+                  path="/minha-conta"
+                  element={
+                    <ProtectedRoute>
+                      <MyAccount />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route path="/favoritos" element={<Favorites />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
