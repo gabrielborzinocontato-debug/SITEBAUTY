@@ -11,6 +11,9 @@ import makeup3 from "@/assets/products/makeup-3.jpg";
 import haircare1 from "@/assets/products/haircare-1.jpg";
 import bodycare1 from "@/assets/products/bodycare-1.jpg";
 import liphoneyMel from "@/assets/products/liphoney-mel.png";
+import vitac10_1 from "@/assets/products/vitac10-1.png";
+import vitac10_2 from "@/assets/products/vitac10-2.png";
+import vitac10_3 from "@/assets/products/vitac10-3.png";
 
 export interface Product {
   id: string;
@@ -221,6 +224,20 @@ export const products: Product[] = [
     reviews: 12,
     description: "O Gloss Labial Liphoney Mel proporciona um brilho irresistível com uma textura confortável e hidratação profunda. Inspirado na doçura e brilho do mel, é o toque final perfeito para qualquer maquiagem.",
     benefits: ["Brilho intenso", "Hidratação prolongada", "Textura não pegajosa"],
+    isNew: true,
+  },
+  {
+    id: "14",
+    name: "Sérum Facial VITAMINA C-10",
+    brand: "Principia",
+    price: 32.00,
+    image: vitac10_1,
+    images: [vitac10_1, vitac10_2, vitac10_3],
+    category: "skincare",
+    rating: 4.9,
+    reviews: 84,
+    description: "Sérum com 10% de Vitamina C e 0,5% de Ácido Ferúlico com alta eficácia contra linhas finas, textura irregular e hiperpigmentação. Proporciona luminosidade e rejuvenescimento para todos os tipos de pele.",
+    benefits: ["10% Vitamina C Pura", "0,5% Ácido Ferúlico", "Combate hiperpigmentação e linhas finas"],
     isNew: true,
   },
 ];
