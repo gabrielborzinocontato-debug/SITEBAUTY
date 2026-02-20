@@ -1,11 +1,11 @@
 import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
-import { Star, ShoppingBag, Heart, Truck, Shield, RotateCcw, ChevronLeft } from "lucide-react";
+import { Star, ShoppingBag, Heart, Truck, Shield, RotateCcw, ChevronLeft, ArrowRight } from "lucide-react";
 import { getProductById, products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { useFavorites } from "@/context/FavoritesContext";
 import ProductCard from "@/components/ProductCard";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -13,6 +13,7 @@ const ProductDetail = () => {
   const { addItem } = useCart();
   const { toggleFavorite, isFavorite } = useFavorites();
   const [quantity, setQuantity] = useState(1);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     product?.variants ? product.variants[0].id : null
   );
@@ -48,19 +49,69 @@ const ProductDetail = () => {
 
       <div className="container mx-auto px-4 pb-16">
         <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
-          {/* Images */}
+          {/* Images Carousel */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="space-y-4"
           >
-            <div className="aspect-square bg-secondary rounded-xl overflow-hidden">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-              />
+            <div className="relative aspect-square bg-secondary rounded-xl overflow-hidden group">
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={currentImageIndex}
+                  src={product.images ? product.images[currentImageIndex] : product.image}
+                  alt={product.name}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="w-full h-full object-cover"
+                />
+              </AnimatePresence>
+
+              {product.images && product.images.length > 1 && (
+                <>
+                  <button
+                    onClick={() => setCurrentImageIndex((prev) => (prev > 0 ? prev - 1 : product.images!.length - 1))}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+                  <button
+                    onClick={() => setCurrentImageIndex((prev) => (prev < product.images!.length - 1 ? prev + 1 : 0))}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+                  >
+                    <ArrowRight size={20} />
+                  </button>
+
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5">
+                    {product.images.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setCurrentImageIndex(i)}
+                        className={`w-2 h-2 rounded-full transition-all ${currentImageIndex === i ? "bg-primary w-4" : "bg-primary/30"
+                          }`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
+
+            {product.images && product.images.length > 1 && (
+              <div className="grid grid-cols-4 gap-2">
+                {product.images.map((img, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCurrentImageIndex(i)}
+                    className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${currentImageIndex === i ? "border-primary shadow-md" : "border-transparent opacity-60 hover:opacity-100"
+                      }`}
+                  >
+                    <img src={img} alt="" className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
           </motion.div>
 
           {/* Info */}
@@ -108,6 +159,28 @@ const ProductDetail = () => {
                 </ul>
               </div>
             )}
+
+            {/* Trust Badges */}
+            <div className="grid grid-cols-2 gap-4 pt-6 border-t border-border mt-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                  <Shield size={20} />
+                </div>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-tighter">100% Original</p>
+                  <p className="text-[10px] text-muted-foreground line-clamp-1">Garantia total de procedência</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                  <Truck size={20} />
+                </div>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-tighter">Envio Seguro</p>
+                  <p className="text-[10px] text-muted-foreground line-clamp-1">Rastreamento em tempo real</p>
+                </div>
+              </div>
+            </div>
 
             {product.variants && (
               <div className="space-y-3 pt-2">
