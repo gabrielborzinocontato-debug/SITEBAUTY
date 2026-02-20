@@ -251,6 +251,7 @@ export const products: Product[] = [
     name: "Sérum Facial VITAMINA C-10",
     brand: "Principia",
     price: 32.00,
+    originalPrice: 64.00,
     image: vitac10_1,
     images: [vitac10_1, vitac10_2, vitac10_3],
     category: "skincare",
