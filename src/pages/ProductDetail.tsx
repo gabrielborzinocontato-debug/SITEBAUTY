@@ -14,6 +14,7 @@ const ProductDetail = () => {
   const { toggleFavorite, isFavorite } = useFavorites();
   const [quantity, setQuantity] = useState(1);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [zoomStyle, setZoomStyle] = useState<React.CSSProperties>({ display: "none" });
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     product?.variants ? product.variants[0].id : null
   );
@@ -22,6 +23,24 @@ const ProductDetail = () => {
   const currentVariant = product?.variants?.find(v => v.id === selectedVariantId) || null;
   const currentPrice = currentVariant ? currentVariant.price : product?.price || 0;
   const currentOriginalPrice = currentVariant ? currentVariant.originalPrice : product?.originalPrice;
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = ((e.pageX - left - window.scrollX) / width) * 100;
+    const y = ((e.pageY - top - window.scrollY) / height) * 100;
+
+    setZoomStyle({
+      display: "block",
+      backgroundImage: `url(${product?.images ? product.images[currentImageIndex] : product?.image})`,
+      backgroundPosition: `${x}% ${y}%`,
+      left: `${e.clientX - left}px`,
+      top: `${e.clientY - top}px`,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setZoomStyle({ display: "none" });
+  };
 
   if (!product) {
     return (
@@ -55,7 +74,11 @@ const ProductDetail = () => {
             animate={{ opacity: 1, x: 0 }}
             className="space-y-4"
           >
-            <div className="relative aspect-square bg-secondary rounded-xl overflow-hidden group">
+            <div
+              className="relative aspect-square bg-secondary rounded-xl overflow-hidden group cursor-zoom-in"
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
               <AnimatePresence mode="wait">
                 <motion.img
                   key={currentImageIndex}
@@ -68,6 +91,19 @@ const ProductDetail = () => {
                   className="w-full h-full object-cover"
                 />
               </AnimatePresence>
+
+              {/* Zoom Lens */}
+              <div
+                className="absolute pointer-events-none border-2 border-white/50 rounded-full w-40 h-40 shadow-2xl hidden md:block"
+                style={{
+                  ...zoomStyle,
+                  position: "absolute",
+                  transform: "translate(-50%, -50%)",
+                  backgroundSize: "250%",
+                  backgroundRepeat: "no-repeat",
+                  zIndex: 20,
+                }}
+              />
 
               {product.images && product.images.length > 1 && (
                 <>
