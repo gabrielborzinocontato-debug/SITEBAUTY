@@ -238,6 +238,26 @@ const ProductDetail = () => {
               </div>
             )}
 
+            {product.scarcityMessage && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  backgroundColor: ["rgba(234, 179, 8, 0.1)", "rgba(234, 179, 8, 0.2)", "rgba(234, 179, 8, 0.1)"]
+                }}
+                transition={{
+                  backgroundColor: { repeat: Infinity, duration: 2 }
+                }}
+                className="p-3 rounded-lg border border-yellow-500/30 flex items-center gap-3"
+              >
+                <div className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse" />
+                <span className="text-sm font-bold text-yellow-700 uppercase tracking-tight">
+                  {product.scarcityMessage}
+                </span>
+              </motion.div>
+            )}
+
             <div className="flex items-center gap-4">
               <div className="flex items-center border border-border rounded-lg">
                 <button

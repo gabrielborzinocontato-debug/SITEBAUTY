@@ -46,6 +46,7 @@ export interface Product {
     text: string;
     date: string;
   }[];
+  scarcityMessage?: string;
 }
 
 export const products: Product[] = [
@@ -270,6 +271,7 @@ export const products: Product[] = [
     benefits: ["Fragrância icônica e sensual", "Frasco em formato de sapato agulha", "Alta fixação e projeção"],
     isNew: true,
     discount: 50,
+    scarcityMessage: "Restam apenas 7 unidades com 50% OFF",
     variants: [
       { id: "30ml", name: "30 ML", price: 179.99, originalPrice: 359.98 },
       { id: "50ml", name: "50 ML", price: 299.99, originalPrice: 599.98 },
