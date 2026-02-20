@@ -273,7 +273,7 @@ export const products: Product[] = [
     variants: [
       { id: "30ml", name: "30 ML", price: 199.90, originalPrice: 399.80 },
       { id: "50ml", name: "50 ML", price: 340.00, originalPrice: 680.00 },
-      { id: "100ml", name: "100 ML", price: 599.00, originalPrice: 1198.00 },
+      { id: "100ml", name: "100 ML", price: 599.00, originalPrice: 854.67 },
     ],
     customReviews: [
       { name: "Juliana M.", rating: 5, text: "Gente, podem comprar sem medo! O perfume é 100% original, o cheiro é maravilhoso e a fixação é absurda. Amei a loja, entrega super rápida!", date: "18/02/2026" },
