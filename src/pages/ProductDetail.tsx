@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
-import { Star, ShoppingBag, Heart, Truck, Shield, RotateCcw, ChevronLeft, ArrowRight } from "lucide-react";
+import { Star, ShoppingBag, Heart, Truck, Shield, RotateCcw, ChevronLeft, ArrowRight, TrendingUp, Users } from "lucide-react";
 import { getProductById, products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { useFavorites } from "@/context/FavoritesContext";
@@ -256,6 +256,13 @@ const ProductDetail = () => {
                   {product.scarcityMessage}
                 </span>
               </motion.div>
+            )}
+
+            {product.id === "15" && (
+              <div className="flex items-center gap-2 text-[11px] font-semibold text-primary/80 uppercase tracking-tight px-1 font-inter">
+                <span className="flex h-2 w-2 rounded-full bg-primary animate-ping" />
+                <span>🔥 17 pessoas viram este produto nos últimos 30 min</span>
+              </div>
             )}
 
             <div className="flex items-center gap-4">

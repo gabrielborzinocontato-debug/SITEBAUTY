@@ -47,6 +47,10 @@ export interface Product {
     date: string;
   }[];
   scarcityMessage?: string;
+  socialProof?: {
+    salesCount: string;
+    trendLabel: string;
+  };
 }
 
 export const products: Product[] = [
@@ -272,6 +276,10 @@ export const products: Product[] = [
     isNew: true,
     discount: 50,
     scarcityMessage: "Restam apenas 19 unidades com 50% OFF",
+    socialProof: {
+      salesCount: "1.284",
+      trendLabel: "Explodindo em vendas no Brasil"
+    },
     variants: [
       { id: "30ml", name: "30 ML", price: 179.99, originalPrice: 359.98 },
       { id: "50ml", name: "50 ML", price: 299.99, originalPrice: 599.98 },
